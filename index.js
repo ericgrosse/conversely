@@ -9,13 +9,25 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   io.emit('chat message', 'a user connected');
   
+  socket.on('typing', (val) => {
+    if (val) {
+      io.emit('chat message', 'a user is typing...');
+    }
+  });
+
   socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
+    if (msg) {
+      io.emit('chat message', msg);
+    }
   });
   
   socket.on('disconnect', () => {
-    io.emit('chat message', 'a user  disconnected');
+    io.emit('chat message', 'a user disconnected');
   });
+
+  socket.on('remove message', () => {
+    io.emit('remove message');
+  })
 });
 
 http.listen(3000, () => {
