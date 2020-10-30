@@ -13,9 +13,7 @@
   <form id="form-1" action="">
     <input id="m" autocomplete="off" /><button>Send</button>
   </form>
-  <form id="form-2" action="">
-    <input id="n" autocomplete="off" /><button>Delete</button>
-  </form>
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script>
@@ -26,19 +24,19 @@
 
       function timeoutFunction() {
         typing = false;
-        socket.emit('typing', false);
+        socket.emit('remove message');
       }
 
       $('#m').on('keydown', function (val) {
         if (typing === false) {
           typing = true;
           socket.emit('typing', 'a user is typing...');
-          timeout = setTimeout(timeoutFunction, 2000);
+          timeout = setTimeout(timeoutFunction, 1000);
         }
         else {
           clearTimeout(timeout);
-          //socket.emit('test');
-          timeout = setTimeout(timeoutFunction, 2000);
+          //socket.emit('remove message');
+          timeout = setTimeout(timeoutFunction, 1000);
         }
       });
 
@@ -46,12 +44,6 @@
         e.preventDefault();
         socket.emit('chat message', $('#m').val());
         $('#m').val('');
-        return false;
-      });
-
-      $('#form-2').submit(function (e) {
-        e.preventDefault();
-        socket.emit('remove message');
         return false;
       });
 
