@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>Chat</h1>
-    <button><router-link to="/login">Back</router-link></button>
+    <button v-on:click="navigateBack">Back</button>
     <input id="m" autocomplete="off" v-on:keyup="changeText" />
     <button v-on:click="submitText">Send</button>
     <ul id="messages">
@@ -64,6 +64,9 @@ export default {
 
       socket.emit('send message', this.currentMessage);
       return false;
+    },
+    navigateBack() {
+      this.$router.push('/login')
     }
   },
   computed: {
