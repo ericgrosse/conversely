@@ -16,9 +16,10 @@ export default {
     handleInput(evt) {
       this.username = evt.target.value
     },
-    handleLogin() {    
+    handleLogin() {
+      this.$store.commit('updateUsername', this.username)
       this.$router.push('/')
-    }
+    },
   }
 }
 </script>

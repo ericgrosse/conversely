@@ -10,11 +10,13 @@
         {{message}}
       </li>
     </ul>
+    <p>Username: {{username}}</p>
   </div>
 </template>
 
 <script>
 import io from 'socket.io-client'
+import { mapState } from 'vuex'
 
 const socket = io('http://localhost:3000')
 let typing = false;
@@ -62,6 +64,9 @@ export default {
       socket.emit('send message', this.currentMessage);
       return false;
     }
+  },
+  computed: {
+    ...mapState(['username'])
   },
   created() {
     this.$on('username', () => {
