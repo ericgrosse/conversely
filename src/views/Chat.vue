@@ -20,13 +20,7 @@ import io from 'socket.io-client'
 import { mapState } from 'vuex'
 
 const socket = io('http://localhost:3000')
-let typing = false;
 let timeout;
-
-function timeoutFunction() {
-  typing = false;
-  socket.emit('remove message');
-}
 
 export default {
   name: 'Home',
@@ -34,6 +28,7 @@ export default {
     return {
       messages: [],
       currentMessage: '',
+      typing: false
     }
   },
   methods: {
@@ -44,21 +39,25 @@ export default {
 
       this.currentMessage = evt.target.value;
 
-      if (typing === false) {
-        typing = true;
+      if (this.typing === false) {
+        this.typing = true;
         socket.emit('typing', `${this.username} is typing...`);
-        timeout = setTimeout(timeoutFunction, 1000);
+        timeout = setTimeout(this.typeTimeout, 1000);
       }
       else {
         clearTimeout(timeout);
-        timeout = setTimeout(timeoutFunction, 1000);
+        timeout = setTimeout(this.typeTimeout, 1000);
       }
+    },
+    typeTimeout() {
+      this.typing = false
+      socket.emit('remove message');
     },
     submitText() {
       // If still typing while submitting the form, remove the 'a user is typing' message
-      if (typing === true) {
+      if (this.typing === true) {
         clearTimeout(timeout); // clear the timer for 'a user is typing'
-        typing = false;
+        this.typing = false;
         socket.emit('remove message');
       }
 
