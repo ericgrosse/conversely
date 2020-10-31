@@ -4,9 +4,7 @@ const io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
   socket.on('typing', (val) => {
-    if (val) {
-      io.emit('send message', val);
-    }
+    io.emit('typing', val);
   });
 
   socket.on('send message', (msg) => {

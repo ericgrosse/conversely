@@ -11,6 +11,7 @@
       >
         {{message}}
       </li>
+      <p v-if="typing">{{`${username} is typing...`}}</p>
     </ul>
   </div>
 </template>
@@ -28,7 +29,7 @@ export default {
     return {
       messages: [],
       currentMessage: '',
-      typing: false
+      typing: false,
     }
   },
   methods: {
@@ -40,8 +41,7 @@ export default {
       this.currentMessage = evt.target.value;
 
       if (this.typing === false) {
-        this.typing = true;
-        socket.emit('typing', `${this.username} is typing...`);
+        socket.emit('typing', true);
         timeout = setTimeout(this.typeTimeout, 1000);
       }
       else {
@@ -50,19 +50,16 @@ export default {
       }
     },
     typeTimeout() {
-      this.typing = false
-      socket.emit('remove message');
+      socket.emit('typing', false);
     },
     submitText() {
       // If still typing while submitting the form, remove the 'a user is typing' message
       if (this.typing === true) {
         clearTimeout(timeout); // clear the timer for 'a user is typing'
-        this.typing = false;
-        socket.emit('remove message');
+        socket.emit('typing', false);
       }
 
       socket.emit('send message', this.currentMessage);
-      return false;
     },
     navigateBack() {
       this.$router.push('/login')
@@ -72,6 +69,10 @@ export default {
     ...mapState(['username'])
   },
   created() {
+    socket.on('typing', (val) => {
+      this.typing = val;
+    });
+
     socket.on('send message', (msg) => {
       this.messages.push(msg)
     });
