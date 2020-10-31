@@ -69,6 +69,8 @@ export default {
     ...mapState(['username'])
   },
   created() {
+    socket.emit('send message', `${this.username} connected`)
+
     socket.on('typing', (val) => {
       this.typing = val;
     });
@@ -85,6 +87,10 @@ export default {
 </script>
 
 <style scoped>
+p {
+  font-size: 12px;
+  margin: 0;
+}
 h3 {
   margin: 40px 0 0;
 }
