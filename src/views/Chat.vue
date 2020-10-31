@@ -69,7 +69,11 @@ export default {
     ...mapState(['username'])
   },
   created() {
-    socket.emit('send message', `${this.username} entered the chat`)
+    if (!this.username) {
+      this.$router.push('/login')
+    }
+
+    socket.emit('send message', `${this.username} has entered the chat`)
 
     socket.on('typing', (val) => {
       this.typing = val;
@@ -84,7 +88,7 @@ export default {
     });
   },
   destroyed() {
-    socket.emit('send message', `${this.username} left the chat`)
+    socket.emit('send message', `${this.username} has left the chat`)
   }
 }
 </script>
