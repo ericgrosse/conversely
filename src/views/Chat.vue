@@ -3,7 +3,7 @@
     <h1>Chat</h1>
     <button v-on:click="navigateBack">Back</button>
     <input id="m" autocomplete="off" v-on:keyup="changeText" />
-    <button v-on:click="submitText">Send</button>
+    <button v-on:click="submitText" v-bind:disabled="!currentMessage">Send</button>
     <ul id="messages">
       <li
         v-bind:key="message.id"

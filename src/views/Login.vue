@@ -2,7 +2,7 @@
   <div class="about">
     <h1>Conversely Login</h1>
     <input v-on:keyup="handleInput" type="text">
-    <button v-on:click="handleLogin">Join</button>
+    <button v-on:click="handleLogin" v-bind:disabled="!username">Join</button>
   </div>
 </template>
 
