@@ -72,10 +72,6 @@ export default {
     ...mapState(['username'])
   },
   created() {
-    this.$on('username', () => {
-      console.log('please fucking work');
-    });
-
     socket.on('send message', (msg) => {
       this.messages.push(msg)
     });
