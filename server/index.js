@@ -7,7 +7,7 @@ io.on('connection', (socket) => {
   
   socket.on('typing', (val) => {
     if (val) {
-      io.emit('send message', 'a user is typing...');
+      io.emit('send message', val);
     }
   });
 

@@ -1,5 +1,6 @@
 <template>
   <div class="about">
+    <h1>Conversely Login</h1>
     <input v-on:keyup="handleInput" type="text">
     <button v-on:click="handleLogin">Join</button>
   </div>
@@ -18,7 +19,7 @@ export default {
     },
     handleLogin() {
       this.$store.commit('updateUsername', this.username)
-      this.$router.push('/')
+      this.$router.push('/chat')
     },
   }
 }

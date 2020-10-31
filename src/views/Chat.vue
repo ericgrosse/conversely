@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <h1>Chat</h1>
+    <button><router-link to="/login">Back</router-link></button>
     <input id="m" autocomplete="off" v-on:keyup="changeText" />
     <button v-on:click="submitText">Send</button>
     <ul id="messages">
@@ -10,7 +12,6 @@
         {{message}}
       </li>
     </ul>
-    <p>Username: {{username}}</p>
   </div>
 </template>
 
@@ -28,7 +29,7 @@ function timeoutFunction() {
 }
 
 export default {
-  name: 'HelloWorld',
+  name: 'Home',
   data() {
     return {
       messages: [],
@@ -45,7 +46,7 @@ export default {
 
       if (typing === false) {
         typing = true;
-        socket.emit('typing', 'a user is typing...');
+        socket.emit('typing', `${this.username} is typing...`);
         timeout = setTimeout(timeoutFunction, 1000);
       }
       else {
