@@ -3,12 +3,27 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
-  console.log('sending message to client...');
-  io.emit('message');
-
-  socket.on('message', () => {
-    console.log('message received from client');
+  io.emit('send message', 'a user connected');
+  
+  socket.on('typing', (val) => {
+    if (val) {
+      io.emit('send message', 'a user is typing...');
+    }
   });
+
+  socket.on('send message', (msg) => {
+    if (msg) {
+      io.emit('send message', msg);
+    }
+  });
+  
+  socket.on('disconnect', () => {
+    io.emit('send message', 'a user disconnected');
+  });
+
+  socket.on('remove message', () => {
+    io.emit('remove message');
+  })
 });
 
 http.listen(3000, () => {
