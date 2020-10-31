@@ -13,9 +13,9 @@ io.on('connection', (socket) => {
     }
   });
   
-  socket.on('disconnect', () => {
-    io.emit('send message', 'a user disconnected');
-  });
+  /*socket.on('disconnect user', (username) => {
+    io.emit('send message', `${username} disconnected`);
+  });*/
 
   socket.on('remove message', () => {
     io.emit('remove message');

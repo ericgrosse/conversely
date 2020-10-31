@@ -59,7 +59,7 @@ export default {
         socket.emit('typing', false);
       }
 
-      socket.emit('send message', this.currentMessage);
+      socket.emit('send message', `${this.username}: ${this.currentMessage}`);
     },
     navigateBack() {
       this.$router.push('/login')
@@ -69,7 +69,7 @@ export default {
     ...mapState(['username'])
   },
   created() {
-    socket.emit('send message', `${this.username} connected`)
+    socket.emit('send message', `${this.username} entered the chat`)
 
     socket.on('typing', (val) => {
       this.typing = val;
@@ -82,6 +82,9 @@ export default {
     socket.on('remove message', () => {
       this.messages.pop()
     });
+  },
+  destroyed() {
+    socket.emit('send message', `${this.username} left the chat`)
   }
 }
 </script>
