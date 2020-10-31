@@ -2,7 +2,7 @@
   <div class="home">
     <h1>Chat</h1>
     <button v-on:click="navigateBack">Back</button>
-    <input id="m" autocomplete="off" v-on:keyup="changeText" />
+    <input id="m" autocomplete="off" v-on:keyup="changeText" v-model="currentMessage" />
     <button v-on:click="submitText" v-bind:disabled="!currentMessage">Send</button>
     <ul id="messages">
       <li
@@ -60,6 +60,7 @@ export default {
       }
 
       socket.emit('send message', `${this.username}: ${this.currentMessage}`);
+      this.currentMessage = '';
     },
     navigateBack() {
       this.$router.push('/login')
