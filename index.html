@@ -39,13 +39,20 @@
         }
         else {
           clearTimeout(timeout);
-          //socket.emit('remove message');
           timeout = setTimeout(timeoutFunction, 1000);
         }
       });
 
       $('#form-1').submit(function (evt) {
         evt.preventDefault();
+        
+        // If still typing while submitting the form, remove the 'a user is typing' message
+        if (typing === true) {
+          clearTimeout(timeout); // clear the timer for 'a user is typing'
+          typing = false;
+          socket.emit('remove message');
+        }
+
         socket.emit('chat message', $('#m').val());
         $('#m').val('');
         return false;
