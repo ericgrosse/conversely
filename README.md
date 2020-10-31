@@ -1,5 +1,29 @@
-### Conversely
+# vue-cli-test-3
 
-Conversely is an instant messaging web application built using socket.io
+## Project setup
+```
+npm install
+```
 
-To run: `node index.js`
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your unit tests
+```
+npm run test:unit
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
