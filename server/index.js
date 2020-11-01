@@ -3,23 +3,23 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
-  socket.on('typing', (val) => {
-    io.emit('typing', val);
-  });
+  /*socket.on('disconnect', (username) => {
+    io.emit('send message', `${username} disconnected`);
+  });*/
 
   socket.on('send message', (msg) => {
     if (msg) {
       io.emit('send message', msg);
     }
   });
-  
-  /*socket.on('disconnect user', (username) => {
-    io.emit('send message', `${username} disconnected`);
-  });*/
 
   socket.on('remove message', () => {
     io.emit('remove message');
   })
+
+  socket.on('typing', (val) => {
+    io.emit('typing', val);
+  });
 });
 
 http.listen(3000, () => {

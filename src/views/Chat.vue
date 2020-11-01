@@ -6,12 +6,17 @@
     <button v-on:click="submitText" v-bind:disabled="!currentMessage">Send</button>
     <ul id="messages">
       <li
-        v-bind:key="message.id"
-        v-for="message in messages"
+        v-bind:key="'message-' + index"
+        v-for="(message, index) in messages"
       >
         {{message}}
       </li>
-      <p v-if="typing">{{`${username} is typing...`}}</p>
+      <p
+        v-bind:key="'typing-message-' + index"
+        v-for="(typingMessage, index) in typingMessages"
+      >
+        {{typingMessage}}
+      </p>
     </ul>
   </div>
 </template>
@@ -30,6 +35,7 @@ export default {
       messages: [],
       currentMessage: '',
       typing: false,
+      typingMessages: [],
     }
   },
   methods: {
@@ -42,7 +48,13 @@ export default {
       this.currentMessage = evt.target.value;
 
       if (this.typing === false) {
-        socket.emit('typing', true);
+        this.typing = true
+        
+        socket.emit('typing', {
+          isTyping: true,
+          message: `${this.username} is typing...`
+        });
+
         timeout = setTimeout(this.typeTimeout, 1000);
       }
       else {
@@ -51,16 +63,18 @@ export default {
       }
     },
     typeTimeout() {
-      socket.emit('typing', false);
+      this.typing = false;
+      socket.emit('typing', {isTyping: false});
     },
     submitText() {
       // If still typing while submitting the form, remove the 'a user is typing' message
       if (this.typing === true) {
         clearTimeout(timeout); // clear the timer for 'a user is typing'
-        socket.emit('typing', false);
+        this.typing = false;
       }
 
       socket.emit('send message', `${this.username}: ${this.currentMessage}`);
+      socket.emit('typing', {isTyping: false});
       this.currentMessage = '';
     },
     navigateBack() {
@@ -75,10 +89,10 @@ export default {
       this.$router.push('/login')
     }
 
-    socket.emit('send message', `${this.username} has entered the chat`)
+    socket.emit('send message', `${this.username} has joined the chat`)
 
-    socket.on('typing', (val) => {
-      this.typing = val;
+    socket.on('typing', ({isTyping, message}) => {
+      isTyping ? this.typingMessages.push(message) : this.typingMessages.pop()
     });
 
     socket.on('send message', (msg) => {
