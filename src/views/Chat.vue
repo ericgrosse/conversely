@@ -2,24 +2,24 @@
   <div class="home">
     <div class="message-input">
       <button v-on:click="navigateBack">&lt;</button>
-      <input autocomplete="off" v-on:keyup="changeText" v-model="currentMessage" type="text" />
+      <input autocomplete="off" v-on:keyup="changeText" v-model="currentMessage" placeholder="Message" type="text" />
       <button v-on:click="submitText" v-bind:disabled="!currentMessage">Send</button>
     </div>
 
-    <ul id="messages">
-      <li
+    <div class="chat-container">
+      <div
         v-bind:key="'message-' + index"
         v-for="(message, index) in messages"
       >
         {{message}}
-      </li>
-      <p
+      </div>
+      <div
         v-bind:key="'typing-message-' + index"
         v-for="(typingMessage, index) in typingMessages"
       >
         {{typingMessage}}
-      </p>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -112,6 +112,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.chat-container {
+  padding: 16px;
+}
+
 .message-input {
   display: flex;
   align-items: center;
