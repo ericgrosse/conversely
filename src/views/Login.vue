@@ -1,7 +1,6 @@
 <template>
-  <div class="about">
-    <h1>Conversely Login</h1>
-    <input v-on:keyup="handleInput" type="text">
+  <div class="login">
+    <input v-on:keyup="handleInput" placeholder="Username" type="text">
     <button v-on:click="handleLogin" v-bind:disabled="!username">Join</button>
   </div>
 </template>
@@ -33,6 +32,36 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+input[type=text] {
+  font-size: 18px;
+  padding: 4px;
+}
+
+button {
+  margin: 0 16px;
+  padding: .375rem .75rem;
+  background-color: #17a2b8;
+  border: 1px solid #17a2b8;
+  border-radius: .25rem;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
+
+  &:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+  }
+
+  &:disabled {
+    opacity: 0.65;
+  }
+}
 </style>

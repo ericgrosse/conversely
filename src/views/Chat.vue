@@ -1,9 +1,11 @@
 <template>
   <div class="home">
-    <h1>Chat</h1>
-    <button v-on:click="navigateBack">Back</button>
-    <input id="m" autocomplete="off" v-on:keyup="changeText" v-model="currentMessage" />
-    <button v-on:click="submitText" v-bind:disabled="!currentMessage">Send</button>
+    <div class="message-input">
+      <button v-on:click="navigateBack">Back</button>
+      <input autocomplete="off" v-on:keyup="changeText" v-model="currentMessage" type="text" />
+      <button v-on:click="submitText" v-bind:disabled="!currentMessage">Send</button>
+    </div>
+
     <ul id="messages">
       <li
         v-bind:key="'message-' + index"
@@ -109,19 +111,36 @@ export default {
 }
 </script>
 
-<style scoped>
-p {
-  font-size: 12px;
-  margin: 0;
+<style scoped lang="scss">
+.message-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-h3 {
-  margin: 40px 0 0;
+
+input[type=text] {
+  font-size: 18px;
+  padding: 4px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-a {
-  color: #42b983;
+
+button {
+  margin: 0 16px;
+  padding: .375rem .75rem;
+  background-color: #17a2b8;
+  border: 1px solid #17a2b8;
+  border-radius: .25rem;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
+
+  &:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+  }
+
+  &:disabled {
+    opacity: 0.65;
+  }
 }
 </style>
