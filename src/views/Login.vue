@@ -19,6 +19,10 @@ export default {
   methods: {
     handleInput(evt) {
       this.username = evt.target.value
+
+      if(evt.which === 13) {
+        this.handleLogin()
+      }
     },
     handleLogin() {
       this.$store.commit('updateUsername', this.username)

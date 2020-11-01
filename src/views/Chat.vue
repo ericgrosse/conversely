@@ -35,7 +35,8 @@ export default {
   methods: {
     changeText(evt) {
       if (evt.which === 13) {
-        return;
+        this.submitText()
+        return
       }
 
       this.currentMessage = evt.target.value;
