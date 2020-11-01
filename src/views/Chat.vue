@@ -26,7 +26,7 @@ import io from 'socket.io-client'
 import { mapState } from 'vuex'
 
 const socket = io('http://localhost:3000')
-let timeout;
+let timeout
 
 export default {
   name: 'Home',
@@ -45,7 +45,7 @@ export default {
         return
       }
 
-      this.currentMessage = evt.target.value;
+      this.currentMessage = evt.target.value
 
       if (this.typing === false) {
         this.typing = true
@@ -53,29 +53,29 @@ export default {
         socket.emit('typing', {
           isTyping: true,
           message: `${this.username} is typing...`
-        });
+        })
 
-        timeout = setTimeout(this.typeTimeout, 1000);
+        timeout = setTimeout(this.typeTimeout, 1000)
       }
       else {
-        clearTimeout(timeout);
-        timeout = setTimeout(this.typeTimeout, 1000);
+        clearTimeout(timeout)
+        timeout = setTimeout(this.typeTimeout, 1000)
       }
     },
     typeTimeout() {
-      this.typing = false;
-      socket.emit('typing', {isTyping: false});
+      this.typing = false
+      socket.emit('typing', {isTyping: false})
     },
     submitText() {
       // If still typing while submitting the form, remove the 'a user is typing' message
       if (this.typing === true) {
-        clearTimeout(timeout); // clear the timer for 'a user is typing'
-        this.typing = false;
+        clearTimeout(timeout) // clear the timer for 'a user is typing'
+        this.typing = false
       }
 
-      socket.emit('send message', `${this.username}: ${this.currentMessage}`);
-      socket.emit('typing', {isTyping: false});
-      this.currentMessage = '';
+      socket.emit('send message', `${this.username}: ${this.currentMessage}`)
+      socket.emit('typing', {isTyping: false})
+      this.currentMessage = ''
     },
     navigateBack() {
       this.$router.push('/login')
@@ -93,15 +93,15 @@ export default {
 
     socket.on('typing', ({isTyping, message}) => {
       isTyping ? this.typingMessages.push(message) : this.typingMessages.pop()
-    });
+    })
 
     socket.on('send message', (msg) => {
       this.messages.push(msg)
-    });
+    })
 
     socket.on('remove message', () => {
       this.messages.pop()
-    });
+    })
   },
   destroyed() {
     socket.emit('send message', `${this.username} has left the chat`)
