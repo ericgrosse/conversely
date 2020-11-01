@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="message-input">
-      <button v-on:click="navigateBack">Back</button>
+      <button v-on:click="navigateBack">&lt;</button>
       <input autocomplete="off" v-on:keyup="changeText" v-model="currentMessage" type="text" />
       <button v-on:click="submitText" v-bind:disabled="!currentMessage">Send</button>
     </div>
@@ -124,11 +124,9 @@ input[type=text] {
 }
 
 button {
-  margin: 0 16px;
   padding: .375rem .75rem;
   background-color: #17a2b8;
   border: 1px solid #17a2b8;
-  border-radius: .25rem;
   color: white;
   cursor: pointer;
   font-size: 16px;
